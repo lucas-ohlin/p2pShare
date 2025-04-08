@@ -4,7 +4,7 @@ const Peer = require('simple-peer');
 const socket = io('http://localhost:3000'); 
 
 contextBridge.exposeInMainWorld('p2pAPI', {
-  on: (event, callback) => {
+  onSocket: (event, callback) => {
     socket.on(event, (...args) => callback(...args));
   },
   emit: (event, ...args) => {
@@ -13,6 +13,5 @@ contextBridge.exposeInMainWorld('p2pAPI', {
   off: (event, callback) => {
     socket.off(event, callback);
   },
-
   createPeer: (opts) => new Peer(opts),
 });

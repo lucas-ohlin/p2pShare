@@ -47,8 +47,6 @@ body {
 #roomDesc {
   font-size: 0.9rem;
   color: #444;
-  margin-top: 0;
-  margin-bottom: 15px;
 }
 
 .leave-btn {
@@ -166,4 +164,19 @@ button:hover {
 #participantsBox,
 #leaveBtn {
   display: none;
+}
+
+.download-btn {
+  background-color: #1f8637;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.download-btn:hover {
+  background-color: #186328;
 }

@@ -28,7 +28,7 @@ io.on("connection", (socket) => {
     io.to(room).emit("participants", roomMembers[room]);
   });
 
-  socket.on("signal", ({ room, data }) => {
+  socket.on("signal", ({ room, data, to }) => {
     socket.to(room).emit("signal", { from: socket.userId, data });
   });
 
@@ -36,7 +36,11 @@ io.on("connection", (socket) => {
     io.to(room).emit("chatMessage", { user, message });
   });
 
-  socket.on("disconnect", (reason) => {
+  socket.on("fileMessage", ({ room, fileData }) => {
+    socket.to(room).emit("fileMessage", fileData);
+  });
+
+  socket.on("disconnect", () => {
     const room = socket.room;
     const userId = socket.userId;
 
@@ -52,26 +56,14 @@ io.on("connection", (socket) => {
   });
 
   socket.on("leave", () => {
-    const room = socket.room;
-    const userId = socket.userId;
     socket.disconnect(true);
   });
 
   socket.on("ready-for-connection", ({ room, userId }) => {
     socket.to(room).emit("new-user-ready", { userId });
   });
-  
 
   socket.on("connect_error", (err) => {
     console.error(`[${new Date().toLocaleTimeString()}] Connection Error: ${err.message}`);
   });
 });
-
-io.engine.on("connection_error", (err) => {
-  console.error("SOCKET.IO ENGINE CONNECTION ERROR:");
-  console.error("Code:", err.code);
-  console.error("Message:", err.message);
-  console.error("Context:", err.context);
-});
-
-console.log("Server event listeners attached.");
