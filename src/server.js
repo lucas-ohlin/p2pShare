@@ -9,8 +9,13 @@ io.on('connection', socket => {
     const userId = `User-${socket.id.slice(-4)}`;
     socket.userId = userId;
 
-    if (!roomMembers[room]) roomMembers[room] = [];
-    roomMembers[room].push(userId);
+    if (!roomMembers[room]) {
+      roomMembers[room] = [];
+    }
+    
+    if (!roomMembers[room].includes(userId)) {
+      roomMembers[room].push(userId);
+    }    
 
     const roomSize = roomMembers[room].length;
     socket.emit('initiator', roomSize === 1);
