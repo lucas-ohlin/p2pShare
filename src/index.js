@@ -8,7 +8,7 @@ app.whenReady().then(() => {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),  
       contextIsolation: true,
-      nodeIntegration: true,
+      nodeIntegration: true
     }
   });
 
