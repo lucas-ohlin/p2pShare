@@ -21,6 +21,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const leaveBtn = document.getElementById('leaveBtn');
 
   document.getElementById('joinBtn').onclick = () => {
+    document.getElementById('log').innerHTML = ''; // Clears the chat log
     document.getElementById('roomInfo').style.display = 'block';
     document.getElementById('participantsBox').style.display = 'block';
     document.getElementById('leaveBtn').style.display = 'inline-block';
@@ -55,14 +56,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const updateParticipantList = (list) => {
     const container = document.getElementById('participantList');
-    container.innerHTML = ''; 
-    list.forEach(user => {
+    container.innerHTML = '';
+  
+    const uniqueUsers = [...new Set(list)];
+    uniqueUsers.forEach(user => {
       const li = document.createElement('li');
       li.textContent = user;
       container.appendChild(li);
     });
   };
-  
   
   on('participants', userList => {
     participants = userList;
@@ -105,20 +107,19 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('leaveBtn').style.display = 'none';
     document.getElementById('appTitle').style.display = 'block';
     document.getElementById('mainTitle').classList.remove('hidden');
+
     roomSection.style.display = 'block';
     fileSection.style.display = 'none';
     header.style.display = 'none';
-    document.getElementById('log').innerHTML = '';
 
     if (peer && typeof peer.destroy === 'function') {
       peer.destroy();
       peer = null;
       isPeerConnected = false;
     }
-
+    
     currentRoom = '';
     emit('leave');
-    log(`Left room`);
   };
 
   document.getElementById('sendFileBtn').onclick = () => {
