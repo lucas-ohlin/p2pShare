@@ -147,7 +147,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
       fileInput.value = '';
     };
-    reader.readAsText(file);
+
+		reader.readAsArrayBuffer(file); 
   };
 
 	leaveBtn.onclick = () => {
